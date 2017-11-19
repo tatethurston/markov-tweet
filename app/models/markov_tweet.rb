@@ -1,0 +1,2 @@
+class MarkovTweet < ApplicationRecord
+end

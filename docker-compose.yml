@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+  web:
+    image: ruby:2.3-onbuild
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      # share files
+      - .:/usr/src/app
+      # cache gem bundle
+      - ruby_gems:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres@db:5432/markov-tweet
+      - TEST_DATABASE_URL=postgres://postgres@db:5432/markov-tweet-test
+volumes:
+  ruby_gems: {}
